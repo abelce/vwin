@@ -1,7 +1,7 @@
 {
   "private": false,
   "name": "vwin-eazy-win",
-  "version": "1.0.1-alpha.21+025a14a",
+  "version": "1.0.1-alpha.22+ea33180",
   "description": "",
   "main": "lib/index.js",
   "module": "es/index.esm.js",
@@ -19,5 +19,5 @@
   "devDependencies": {
     "@types/react": "^17.0.14"
   },
-  "gitHead": "025a14a83ed0219d08fa27c1a158655e6d61dc29"
+  "gitHead": "ea33180bc8f397e0af828069b27e0e90dafe85e0"
 }
