@@ -1,9 +1,11 @@
 {
   "private": false,
   "name": "eazy-win",
-  "version": "1.0.1-alpha.16+a97089e",
+  "version": "1.0.1-alpha.17+15734c6",
   "description": "",
-  "main": "index.js",
+  "main": "lib/index.js",
+  "module": "es/index.esm.js",
+  "typings": "es/index.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -16,5 +18,5 @@
   "devDependencies": {
     "@types/react": "^17.0.14"
   },
-  "gitHead": "a97089e80e52c64e463597ed8afddc34712424b5"
+  "gitHead": "15734c6648c5385b7488b3149e461944245dd1c4"
 }
