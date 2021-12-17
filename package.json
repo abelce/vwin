@@ -58,5 +58,8 @@
     "lib/**/style/*",
     "*.scss",
     "*.css"
+  ],
+  "workspaces": [
+    "packages/*"
   ]
 }
