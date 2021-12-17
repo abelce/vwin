@@ -71,8 +71,15 @@ class ImageLoader extends React.Component<ImageLoaderProps, ImageLoaderState> {
   };
 
   render() {
-    const { src, ...others } = this.props;
-    return <img {...others} ref={this.imgRef} src={this.getSrc()} />;
+    const { style, className } = this.props;
+    return (
+      <img
+        style={style}
+        className={className}
+        ref={this.imgRef}
+        src={this.getSrc()}
+      />
+    );
   }
 }
 

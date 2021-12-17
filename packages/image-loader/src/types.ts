@@ -1,5 +1,4 @@
-export interface ImageLoaderProps
-  extends React.ImgHTMLAttributes<HTMLImageElement> {
+export interface ImageLoaderProps {
   className?: string;
   style?: object;
   src: string;
