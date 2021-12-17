@@ -3,7 +3,7 @@ import 'intersection-observer';
 import { ImageLoaderProps, ImageLoaderState, LoadingStatusEnum } from './types';
 
 class ImageLoader extends React.Component<ImageLoaderProps, ImageLoaderState> {
-  imgRef: React.RefObject<React.RefObject<HTMLImageElement>>;
+  imgRef: any;
 
   constructor(props: ImageLoaderProps) {
     super(props);
@@ -54,7 +54,7 @@ class ImageLoader extends React.Component<ImageLoaderProps, ImageLoaderState> {
           });
       }
     });
-    observer.observe(img as any);
+    observer.observe(img);
   };
 
   getSrc = (): string => {
@@ -72,7 +72,7 @@ class ImageLoader extends React.Component<ImageLoaderProps, ImageLoaderState> {
 
   render() {
     const { src, ...others } = this.props;
-    return <img {...others} ref={this.imgRef as any} src={this.getSrc()} />;
+    return <img {...others} ref={this.imgRef} src={this.getSrc()} />;
   }
 }
 
