@@ -3,6 +3,7 @@
     border-radius: 4px;
     background-color: rgb(249, 249, 249);
     box-shadow: rgb(92 128 255 / 12%) -200px 0px 200px, rgb(168 255 128 / 12%) 140px 50px 100px;
+    max-height: 100%;
     &-header {
         height: 28px;
         display: flex;
@@ -34,4 +35,8 @@
     &-full {
         background-color: rgb(98, 198, 85);
     }
+}
+
+.eazy-win-dark {
+    background-color: rgb(56, 56, 56);
 }
