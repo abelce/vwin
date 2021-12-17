@@ -3,14 +3,14 @@ import 'intersection-observer';
 import { ImageLoaderProps, ImageLoaderState, LoadingStatusEnum } from './types';
 
 class ImageLoader extends React.Component<ImageLoaderProps, ImageLoaderState> {
-  imgRef: any;
+  imgRef: React.RefObject<HTMLImageElement>;
 
   constructor(props: ImageLoaderProps) {
     super(props);
     if (!this.props.src) {
       throw new Error('the src is required');
     }
-    this.imgRef = React.createRef<React.RefObject<HTMLImageElement>>();
+    this.imgRef = React.createRef<HTMLImageElement>();
     this.state = {
       loadingStatus: LoadingStatusEnum.None,
     };
@@ -28,7 +28,7 @@ class ImageLoader extends React.Component<ImageLoaderProps, ImageLoaderState> {
     ) {
       return;
     }
-    const img = this.imgRef.current;
+    const img: any = this.imgRef.current;
     let observer = new IntersectionObserver(entries => {
       if (entries[0].intersectionRatio > 0) {
         let newImg = new Image();
@@ -71,15 +71,8 @@ class ImageLoader extends React.Component<ImageLoaderProps, ImageLoaderState> {
   };
 
   render() {
-    const { style, className } = this.props;
-    return (
-      <img
-        style={style}
-        className={className}
-        ref={this.imgRef}
-        src={this.getSrc()}
-      />
-    );
+    const { ...others } = this.props;
+    return <img {...others} ref={this.imgRef as any} src={this.getSrc()} />;
   }
 }
 
