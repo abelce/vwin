@@ -1,6 +1,6 @@
 {
-  "private": true,
-  "name": "dumi-template",
+  "private": false,
+  "name": "vwin",
   "version": "1.0.0",
   "scripts": {
     "start": "dumi dev",
@@ -11,7 +11,9 @@
     "release": "npm run build && npm publish",
     "prettier": "prettier --write \"**/*.{js,jsx,tsx,ts,less,md,json}\"",
     "test": "umi-test",
-    "test:coverage": "umi-test --coverage"
+    "test:coverage": "umi-test --coverage",
+    "publish": "lerna publish from-package -m \"chore: publish\"",
+    "publish:test": "lerna publish --canary"
   },
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
@@ -21,7 +23,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/umijs/dumi-template",
+    "url": "git@github.com:abelce/vwin.git",
     "branch": "main"
   },
   "lint-staged": {
@@ -33,15 +35,31 @@
     ]
   },
   "dependencies": {
-    "react": "^16.12.0"
+    "@babel/runtime": "^7.16.3",
+    "babel-plugin-import": "^1.13.3"
   },
   "devDependencies": {
+    "@types/react": "^17.0.14",
+    "@umijs/plugin-sass": "^1.1.1",
     "@umijs/test": "^3.0.5",
     "dumi": "^1.1.0",
-    "father-build": "^1.19.1",
+    "father-build": "^1.20.4",
     "gh-pages": "^3.0.0",
+    "lerna": "^4.0.0",
     "lint-staged": "^10.0.7",
+    "node-sass": "^6.0.1",
     "prettier": "^1.19.1",
+    "sass-loader": "^12.3.0",
     "yorkie": "^2.0.0"
-  }
+  },
+  "sideEffects": [
+    "dist/*",
+    "es/**/style/*",
+    "lib/**/style/*",
+    "*.scss",
+    "*.css"
+  ],
+  "workspaces": [
+    "packages/*"
+  ]
 }

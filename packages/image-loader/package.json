@@ -1,0 +1,23 @@
+{
+  "name": "vwin-image-loader",
+  "version": "1.0.1-alpha.31+059fe6b",
+  "description": "",
+  "main": "lib/index.js",
+  "module": "es/index.esm.js",
+  "typings": "es/index.d.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@babel/runtime": "^7.16.5",
+    "intersection-observer": "^0.12.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  },
+  "devDependencies": {
+    "@types/react-dom": "^17.0.11"
+  },
+  "gitHead": "059fe6b819fc03843ddf3590d2cd20a97d62677e"
+}
