@@ -9,7 +9,9 @@ export default class ImageLoader {
     private src: string,
     private onComplete?: () => void,
     private onFailed?: OnErrorEventHandler,
-  ) {}
+  ) {
+    this.loadImage();
+  }
 
   get width() {
     return this.image.width;

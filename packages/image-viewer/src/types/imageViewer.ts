@@ -1,4 +1,5 @@
-import { ActionDataType } from './action';
+import { ModuleManager } from '../modules/moduleManager';
+import { ActionDataType } from './actionData';
 
 // 插件类型
 export interface ImageViewerModuleType {
@@ -25,7 +26,7 @@ export interface ImageViewerType {
 
   actionData: Array<ActionDataType>; // 操作数据数据
 
-  modules: Array<ImageViewerModuleType>;
+  modules: ModuleManager;
 
   currentModuleName?: string; // 选中的操作模块
 
