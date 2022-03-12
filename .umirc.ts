@@ -21,5 +21,18 @@ export default defineConfig({
       path: 'https://github.com/umijs/dumi-template',
     },
   ],
+  extraBabelPlugins: [
+    [
+      'babel-plugin-import',
+      {
+        libraryName: 'antd',
+        camel2DashComponentName: false,
+        style: 'css',
+      },
+      'antd',
+    ],
+  ],
+  sass: {},
+
   // more config: https://d.umijs.org/config
 });

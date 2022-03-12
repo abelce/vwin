@@ -19,7 +19,11 @@ export default {
   lessInBabelMode: true,
   sassInRollupMode: {},
   runtimeHelpers: true, //是否把 helper 方法提取到 @babel/runtime 里。
-  // pkgs: [],
+  // pkgs: [
+  //   "vwin-eazy-win",
+  //   "vwin-image-loader",
+  //   "vwin-upload"
+  // ],
   // extraBabelPlugins: [
   //   ['babel-plugin-import', { libraryName: 'antd', libraryDirectory: 'es', style: true }, 'antd'],
   // ],
