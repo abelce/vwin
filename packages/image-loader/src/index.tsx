@@ -2,7 +2,7 @@ import * as React from 'react';
 import 'intersection-observer';
 import { ImageLoaderProps, ImageLoaderState, LoadingStatusEnum } from './types';
 import classnames from 'classnames';
-import './index.scss';
+import './index.css';
 
 class ImageLoader extends React.Component<ImageLoaderProps, ImageLoaderState> {
   imgRef: React.RefObject<HTMLImageElement>;
