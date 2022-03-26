@@ -1,6 +1,8 @@
 import * as React from 'react';
 import 'intersection-observer';
 import { ImageLoaderProps, ImageLoaderState, LoadingStatusEnum } from './types';
+import classnames from 'classnames';
+import './index.scss';
 
 class ImageLoader extends React.Component<ImageLoaderProps, ImageLoaderState> {
   imgRef: React.RefObject<HTMLImageElement>;
@@ -71,8 +73,22 @@ class ImageLoader extends React.Component<ImageLoaderProps, ImageLoaderState> {
   };
 
   render() {
-    const { ...others } = this.props;
-    return <img {...others} ref={this.imgRef as any} src={this.getSrc()} />;
+    const { className, ...others } = this.props;
+    const src = this.getSrc();
+    const _className = classnames(
+      {
+        'image-loader-empty': !src,
+      },
+      className || '',
+    );
+    return (
+      <img
+        {...others}
+        ref={this.imgRef as any}
+        className={_className}
+        src={this.getSrc()}
+      />
+    );
   }
 }
 
