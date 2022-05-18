@@ -10,6 +10,7 @@ import {
   BaseModuleOptions,
   ModuleApplyOptions,
 } from './baseModule';
+import { EventNames } from './eventNames';
 import { ModulePropertyWrapper, ModuleWrapper } from './moduleManager';
 import { ModuleNames } from './moduleNames';
 
@@ -21,6 +22,15 @@ export default class CanvasModule extends BaseModule {
 
   @ModulePropertyWrapper(ModuleNames.ActionModule)
   private actionModule: ActionModule;
+
+  @ModulePropertyWrapper(ModuleNames.EventModule)
+  private eventModule: EventModule;
+
+  public apply(ctx: IContext): Promise<void> {
+    // 数据发生变化后需要重新绘制
+    this.eventModule.on(EventNames.ActionDataChange, this.render);
+    return Promise.resolve();
+  }
 
   // 清空画布
   clearCanvas() {
@@ -77,9 +87,11 @@ export default class CanvasModule extends BaseModule {
   render() {
     const ctx = this.options.getContext();
     this.clearCanvas();
+    ctx.canvasCtx.save();
     // this.saveCanvas(ctx);
     this.drawImage();
-    this.renderActionData(ctx);
+    this.renderActionData();
+    ctx.canvasCtx.restore();
     // this.restoreCanvas(ctx);
   }
 }

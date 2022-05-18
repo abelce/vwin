@@ -1,11 +1,13 @@
 import { autobind } from 'core-decorators';
 import { ActionDataType } from '../types/actionData';
 import { BaseModule, BaseModuleOptions } from './baseModule';
-import { ModuleWrapper } from './moduleManager';
+import { ModulePropertyWrapper, ModuleWrapper } from './moduleManager';
 import { ModuleNames } from './moduleNames';
 import { uuid } from 'uuidv4';
 import { IContext } from '../types/context';
 import { ActionNames } from '../actions/actionNames';
+import { EventModule } from './eventModule';
+import { EventNames } from './eventNames';
 
 @autobind
 @ModuleWrapper(ModuleNames.ActionDataModule)
@@ -13,6 +15,9 @@ export default class ActionDataModule extends BaseModule {
   private actionsData: Array<ActionDataType> = []; // 操作数据数据
   // private selectedActionName?: string; // 选中的action name
   private selectedActionDataId?: string; // 选中的action data id
+
+  @ModulePropertyWrapper(ModuleNames.EventModule)
+  private eventModule: EventModule;
 
   constructor(protected options: BaseModuleOptions) {
     super(options);
@@ -90,9 +95,8 @@ export default class ActionDataModule extends BaseModule {
         ...this.actionsData[index],
         ...data,
       };
-      return true;
+      this.eventModule.dispatch(EventNames.ActionDataChange);
     }
-    return false;
   }
 
   public addActionData(data: any): void {

@@ -56,10 +56,12 @@ export default class ScaleAction extends BaseAction {
       );
       if (actionDataArr.length) {
         const scale = actionDataArr[0];
-        scale.data = Math.min(
+        console.log(deltaY, deltaY / ACTION_SCALE_BASE, this.scale);
+        scale.data = Math.max(
           Math.max(this.scale + (deltaY / ACTION_SCALE_BASE) * 0.1, 0),
           this.minScale,
         );
+        console.log(scale.data);
         this.options.updateActionData(scale);
       }
     }
