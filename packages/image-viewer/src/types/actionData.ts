@@ -5,5 +5,5 @@ export interface ActionDataType {
   id: string; // 操作id
   name: ActionNames; // 操作类型
   enable: boolean; // 是否启用该数据 ，默认true
-  data: Record<string, any>; // 操作数据，key/value对象
+  data: Record<string, any> | number | string; // 操作数据，key/value对象
 }

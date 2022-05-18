@@ -51,7 +51,8 @@ export default class ImageModule extends BaseModule {
    * 改变选中的图片
    * @param index
    */
-  public changeIndex(index: number) {
+  public setIndex(index: number) {
     this.index = index;
+    this.eventModule?.dispatch(EventNames.ChangeImage);
   }
 }

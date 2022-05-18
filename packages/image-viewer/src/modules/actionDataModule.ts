@@ -1,15 +1,11 @@
 import { autobind } from 'core-decorators';
-import ImageLoader from '../image-loader';
 import { ActionDataType } from '../types/actionData';
-import ImageUtils from '../utils/imageUtils';
-import {
-  BaseModule,
-  BaseModuleOptions,
-  ModuleApplyOptions,
-} from './baseModule';
+import { BaseModule, BaseModuleOptions } from './baseModule';
 import { ModuleWrapper } from './moduleManager';
 import { ModuleNames } from './moduleNames';
 import { uuid } from 'uuidv4';
+import { IContext } from '../types/context';
+import { ActionNames } from '../actions/actionNames';
 
 @autobind
 @ModuleWrapper(ModuleNames.ActionDataModule)
@@ -21,6 +17,10 @@ export default class ActionDataModule extends BaseModule {
   constructor(protected options: BaseModuleOptions) {
     super(options);
     this.actionsData = options.actionsData || [];
+  }
+
+  public apply(ctx: IContext): Promise<void> {
+    return Promise.resolve();
   }
 
   /**
@@ -66,7 +66,7 @@ export default class ActionDataModule extends BaseModule {
    * @param data
    * @returns
    */
-  public createActionData(name: string, data: any): ActionDataType {
+  public createActionData(name: ActionNames, data: any): ActionDataType {
     const newActionData: ActionDataType = {
       id: uuid(),
       name,
@@ -88,7 +88,7 @@ export default class ActionDataModule extends BaseModule {
     if (index !== -1) {
       this.actionsData[index] = {
         ...this.actionsData[index],
-        data,
+        ...data,
       };
       return true;
     }
@@ -106,5 +106,11 @@ export default class ActionDataModule extends BaseModule {
       return true;
     }
     return false;
+  }
+
+  // 清空数据
+  public clear(): void {
+    this.actionsData = [];
+    this.selectedActionDataId = undefined;
   }
 }

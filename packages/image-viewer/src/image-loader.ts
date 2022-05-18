@@ -13,11 +13,11 @@ export default class ImageLoader {
     this.loadImage();
   }
 
-  get width() {
+  public get width() {
     return this.image.width;
   }
 
-  get height() {
+  public get height() {
     return this.image.height;
   }
 

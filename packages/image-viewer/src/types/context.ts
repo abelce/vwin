@@ -5,9 +5,9 @@ export interface IContext {
   // 图片地址列表
   srcList: string[];
   // 当前图片index, 默认 -1
-  currentImageIndex: number;
+  getCurrentImageIndex: () => void;
   // 当前图片
-  currentImage: ImageLoader;
+  getCurrentImage: () => ImageLoader;
 
   canvasElement: HTMLCanvasElement;
 

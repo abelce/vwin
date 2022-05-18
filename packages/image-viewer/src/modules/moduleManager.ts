@@ -11,6 +11,8 @@ import { ModuleInterface } from './interface';
 export interface IModuleManager {
   seeds: { [key: string]: any };
   modules: Array<typeof BaseModule>;
+  canvasElement: HTMLCanvasElement;
+  getContext: () => IContext;
 }
 export class ModuleManager {
   private modules: Map<
@@ -25,12 +27,16 @@ export class ModuleManager {
   constructor(private options: IModuleManager) {
     this.initModules();
     this.wireModules();
+    this.apply();
   }
 
   initModules() {
     const { modules } = this.options;
     modules.forEach((module: any) => {
-      const options = {};
+      const options = {
+        canvasElement: this.options.canvasElement,
+        getContext: this.options.getContext,
+      };
       const moduleProperty = getModuleProperty(module);
       this.modules.set(moduleProperty.moduleName, {
         moduleName: moduleProperty.moduleName,
@@ -74,7 +80,8 @@ export class ModuleManager {
   }
 
   // 执行模块
-  public apply(ctx: IContext) {
+  public apply() {
+    const ctx = this.options.getContext();
     [...this.modules.values()].forEach(async item => {
       await item.moduleInstance?.apply(ctx);
     });
@@ -86,7 +93,7 @@ export class ModuleManager {
   }
 }
 
-export const MODULE_PROPERTY_KEY = '$$MODULE_PROPERTY_KEY';
+export const MODULE_PROPERTY_KEY = '$$image_helper_MODULE_PROPERTY_KEY';
 
 export type ModulePropertyAttribute = {
   attributeName: string | symbol;

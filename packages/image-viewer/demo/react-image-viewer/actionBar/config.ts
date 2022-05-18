@@ -1,9 +1,11 @@
+import { ActionNames } from '../../../src/actions/actionNames';
 import { ActionOption } from './types';
 
 export const actionsConfig: Array<ActionOption> = [
   {
-    actionName: 'scale',
+    actionKey: ActionNames.ScaleAction,
+    actionName: '缩放',
     actionIcon: 'icon-suofangda',
-    cursorIcon: 'icon-suofangda',
+    cursorIcon: 'zoom-in',
   },
 ];

@@ -1,3 +1,4 @@
+import ImageLoader from '../image-loader';
 import { ActionDataType } from './actionData';
 import { IContext } from './context';
 import { ImageViewerType } from './imageViewer';
@@ -17,6 +18,7 @@ export interface IAction {
 }
 
 export interface ActionOptions {
+  canvasElement: HTMLCanvasElement;
   // imageViewer: ImageViewerType;
   // 获取选中的数据
   getSelectActionData(): ActionDataType | undefined;
@@ -26,5 +28,12 @@ export interface ActionOptions {
   addActionData(data: ActionDataType): void;
   // 删除数据
   deleteActionData(id: string): boolean;
+  // 获取某种名称的所有数据
   getActionsDataByName(name: string): Array<ActionDataType>;
+  // 获取当前的图片信息
+  getCurrentImage(): ImageLoader;
+}
+
+export interface CanvasEventOptions {
+  isMousePressed: boolean; // 鼠标是否按住
 }

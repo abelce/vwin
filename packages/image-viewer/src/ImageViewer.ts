@@ -1,3 +1,5 @@
+import { autobind } from 'core-decorators';
+import { ActionNames } from './actions/actionNames';
 import ImageLoader from './image-loader';
 import ActionDataModule from './modules/actionDataModule';
 import ActionModule from './modules/actionModule';
@@ -12,10 +14,11 @@ import { IContext } from './types/context';
 import { ImageViewerProps, ImageViewerType } from './types/imageViewer';
 import ImageUtils from './utils/imageUtils';
 
+@autobind
 export default class ImageViewer implements ImageViewerType {
   private container?: HTMLElement = undefined;
   // canvas数据
-  private canvas: HTMLCanvasElement;
+  public canvas: HTMLCanvasElement;
   // canvas ctx
   private canvasCtx: CanvasRenderingContext2D | null = null;
   // src列表
@@ -35,7 +38,6 @@ export default class ImageViewer implements ImageViewerType {
     this.initDom(props);
     this.initModules();
     this.initEvents(); // 初始化事件
-    this.applyModules();
   }
 
   private initDom(props: ImageViewerProps) {
@@ -60,6 +62,8 @@ export default class ImageViewer implements ImageViewerType {
   // 初始化模块
   private initModules() {
     this.modules = new ModuleManager({
+      canvasElement: this.canvas,
+      getContext: this.getContext,
       seeds: {},
       modules: [
         EventModule,
@@ -71,19 +75,17 @@ export default class ImageViewer implements ImageViewerType {
     });
   }
 
-  private applyModules() {
-    const ctx = this.getContext();
-    this.modules.apply(ctx);
-  }
-
   private initEvents() {
-    this.getModule(ModuleNames.EventModule).on(EventNames.ImagesLoaded, () => {
-      this.getModule(ModuleNames.CanvasModule).render(this.getContext());
+    const eventModule = this.getModule<EventModule>(ModuleNames.EventModule);
+    eventModule.on(EventNames.ImagesLoaded, () => {
+      // 显示第一张图片
+      this.getModule<ImageModule>(ModuleNames.ImageModule).setIndex(0);
     });
+    eventModule.on(EventNames.ChangeImage, this.changeImage);
   }
 
-  public getModule(moduleName: string) {
-    return this.modules.get(moduleName);
+  public getModule<T>(moduleName: string): T {
+    return (this.modules?.get(moduleName) as unknown) as T;
   }
 
   public render(): void {} // 渲染函数
@@ -93,6 +95,16 @@ export default class ImageViewer implements ImageViewerType {
     return [];
   }
 
+  public changeActiveAction(actionName: ActionNames) {
+    const actionModule = this.getModule<ActionModule>(ModuleNames.ActionModule);
+    actionModule.changeActiveAction(actionName);
+  }
+
+  public getActiveAction() {
+    const actionModule = this.getModule<ActionModule>(ModuleNames.ActionModule);
+    return actionModule.getSelectedAction();
+  }
+
   // 图片处理
 
   // 上下文
@@ -100,13 +112,35 @@ export default class ImageViewer implements ImageViewerType {
     return {
       // 图片地址列表
       srcList: this.srcList,
-      // 当前图片index
-      currentImageIndex: this.getModule(ModuleNames.ImageModule).getIndex(),
-      // 当前图片
-      currentImage: this.getModule(ModuleNames.ImageModule).getCurrentImage(),
+      // // 当前图片index
+      getCurrentImageIndex: this.getModule<ImageModule>(ModuleNames.ImageModule)
+        ?.getIndex,
+      // // 当前图片
+      getCurrentImage: this.getModule<ImageModule>(ModuleNames.ImageModule)
+        ?.getCurrentImage,
       // 操作数据
       canvasElement: this.canvas,
       canvasCtx: this.canvas.getContext('2d'),
     };
+  }
+
+  private changeImage() {
+    this.initImage();
+    // 绘制图片
+    this.getModule<CanvasModule>(ModuleNames.CanvasModule).render();
+  }
+
+  // 初始化图片的大小，根据当前画布的大小进行缩放
+  // 设置图片的缩放比
+  private initImage() {
+    const ctx = this.getContext();
+    const image = ctx?.getCurrentImage();
+    const scale = Math.min(
+      this.canvas.width / image.width,
+      this.canvas.height / image.height,
+    ); // 获取图片的
+    this.getModule<ActionDataModule>(
+      ModuleNames.ActionDataModule,
+    ).createActionData(ActionNames.ScaleAction, scale);
   }
 }

@@ -13,13 +13,14 @@ import ActionManager from '../actions/actionManager';
 import ScaleAction from '../actions/scaleAction';
 import { IContext } from '../types/context';
 import { ActionDataType } from '../types/actionData';
+import ImageLoader from '../image-loader';
 
 @autobind
 @ModuleWrapper(ModuleNames.ActionModule)
 export default class ActionModule extends BaseModule {
   private actionManager: ActionManager;
 
-  private selectedActionName?: ActionNames; // 选中的action name
+  // private selectedActionName?: ActionNames; // 选中的action name
 
   @ModulePropertyWrapper(ModuleNames.ActionDataModule)
   private actionDataModule: ActionDataModule;
@@ -34,27 +35,37 @@ export default class ActionModule extends BaseModule {
 
   initActions = () => {
     this.actionManager = new ActionManager({
+      canvasElement: this.options.canvasElement,
       actions: [ScaleAction],
       getSelectActionData: this.actionDataModule.getSelectActionData,
       updateActionData: this.actionDataModule.updateActionData,
       addActionData: this.actionDataModule.addActionData,
       deleteActionData: this.actionDataModule.deleteActionData,
       getActionsDataByName: this.actionDataModule.getActionsDataByName,
+      getCurrentImage: (): ImageLoader => {
+        return this.options.getContext().getCurrentImage();
+      },
     });
   };
 
   public getSelectedAction(): BaseAction | undefined {
-    if (!this.selectedActionName) {
+    const selectedActionName = this.actionManager.getSelectedActionName();
+    if (!selectedActionName) {
       return undefined;
     }
-    this.actionManager.getActionByName(this.selectedActionName);
+    return this.actionManager.getActionByName(selectedActionName);
+  }
+
+  public changeActiveAction(actionName: ActionNames) {
+    this.actionManager.changeActiveAction(actionName);
   }
 
   public render(ctx: IContext, actionData: ActionDataType) {
+    const selectedActionName = this.actionManager.getSelectedActionName();
     this.actionManager.render(
       ctx,
       actionData,
-      actionData.name === this.selectedActionName,
+      actionData.name === selectedActionName,
     );
   }
 }

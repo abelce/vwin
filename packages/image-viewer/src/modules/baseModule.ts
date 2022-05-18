@@ -4,8 +4,9 @@ import { IContext } from '../types/context';
 import { ILisenter } from './interface';
 
 export interface BaseModuleOptions {
-  canvas: HTMLCanvasElement;
+  canvasElement: HTMLCanvasElement;
   actionsData: Array<ActionDataType>;
+  getContext: () => IContext;
 }
 
 export interface ModuleApplyOptions {

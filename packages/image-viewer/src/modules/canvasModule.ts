@@ -1,4 +1,5 @@
 import { autobind } from 'core-decorators';
+import { ActionNames } from '../actions/actionNames';
 import ImageLoader from '../image-loader';
 import { IContext } from '../types/context';
 import ImageUtils from '../utils/imageUtils';
@@ -22,7 +23,8 @@ export default class CanvasModule extends BaseModule {
   private actionModule: ActionModule;
 
   // 清空画布
-  clearCanvas(ctx: IContext) {
+  clearCanvas() {
+    const ctx = this.options.getContext();
     ctx.canvasCtx.clearRect(
       0,
       0,
@@ -41,21 +43,30 @@ export default class CanvasModule extends BaseModule {
     ctx.canvasCtx.restore();
   }
 
-  drawImage(ctx: IContext) {
-    const image = ctx.currentImage.image;
-    ctx.canvasCtx.scale(0.1, 0.1);
+  drawImage() {
+    const ctx = this.options.getContext();
+    const image = ctx.getCurrentImage().image;
+    // 缩放
+    this.scale(ctx);
     ctx.canvasCtx.drawImage(image, 0, 0);
   }
 
-  contextScale(ctx: IContext, scale: number) {
-    ctx.canvasCtx.scale(scale, scale);
+  scale(ctx: IContext) {
+    const actionDataArr = this.actionDataModule.getActionsDataByName(
+      ActionNames.ScaleAction,
+    );
+    if (actionDataArr.length) {
+      const scale = actionDataArr[0].data as number;
+      ctx.canvasCtx.scale(scale, scale);
+    }
   }
 
   gourpData() {
     this.actionDataModule.getActionsData();
   }
 
-  renderActionData(ctx: IContext) {
+  renderActionData() {
+    const ctx = this.options.getContext();
     const actionsData = this.actionDataModule.getActionsData();
     // @TODO: 这里要过滤掉scale的数据，scale要在drawImage前设置
     actionsData.forEach(item => {
@@ -63,10 +74,11 @@ export default class CanvasModule extends BaseModule {
     });
   }
 
-  render(ctx: IContext) {
-    this.clearCanvas(ctx);
+  render() {
+    const ctx = this.options.getContext();
+    this.clearCanvas();
     // this.saveCanvas(ctx);
-    this.drawImage(ctx);
+    this.drawImage();
     this.renderActionData(ctx);
     // this.restoreCanvas(ctx);
   }

@@ -1,4 +1,8 @@
+import { ActionNames } from 'packages/image-viewer/src/actions/actionNames';
+import ImageViewer from 'packages/image-viewer/src/ImageViewer';
+
 export interface ActionOption {
+  actionKey: ActionNames; // key
   actionName: string; // 操作名称
   actionIcon: string; // 图标
   cursorIcon: string; //鼠标图标
@@ -8,5 +12,10 @@ export interface ActionOption {
 
 export interface ActionItemProps {
   action: ActionOption;
-  currentActionName: string;
+  currentActionName?: string;
+  onClick: (actionName: string, action: ActionOption) => void; // 按钮点击事件
+}
+
+export interface ActionBarProps {
+  imageViewer: ImageViewer;
 }

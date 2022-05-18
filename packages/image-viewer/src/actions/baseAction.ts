@@ -1,10 +1,15 @@
-import { ActionOptions } from '../types/action';
+import { ActionOptions, CanvasEventOptions } from '../types/action';
 import { ActionDataType } from '../types/actionData';
 import { IContext } from '../types/context';
+import { Coordinate } from '../types/coordinate';
 import { ActionNames } from './actionNames';
 
 export default abstract class BaseAction {
   public abstract name: ActionNames;
+
+  public isMouseDown: boolean = false;
+  public isMouseMove: boolean = false;
+  public startPoint?: Coordinate;
 
   constructor(public readonly options: ActionOptions) {}
   /**
@@ -32,6 +37,49 @@ export default abstract class BaseAction {
 
   // // 通过canvas渲染函数
   // public canvasRender(ctx: IContext, actionData: ActionDataType): void {
+
+  // }
+
+  public isEventOnCanvas(e: Event) {
+    return e.target === this.options.canvasElement;
+  }
+
+  // 鼠标移入
+  public onMouseEnter(e: MouseEvent, options: CanvasEventOptions): void {}
+  // 鼠标移出
+  public onMouseLeave(e: MouseEvent, options: CanvasEventOptions): void {}
+  // 鼠标按下
+  public onMouseDown(e: MouseEvent, options: CanvasEventOptions): void {
+    if (this.isEventOnCanvas(e)) {
+      switch (e.button) {
+        case 0:
+          this.isMouseDown = true;
+          this.startPoint = {
+            x: e.clientX,
+            y: e.clientY,
+          };
+          break;
+      }
+    }
+  }
+  // 鼠标松开
+  public onMouseUp(e: MouseEvent, options: CanvasEventOptions): void {
+    if (this.isMouseDown) {
+      this.isMouseDown = false;
+      this.startPoint = undefined;
+    }
+  }
+  // 鼠标移动
+  public onMouseMove(e: MouseEvent, options: CanvasEventOptions): void {
+    if (this.isEventOnCanvas(e) && this.isMouseMove) {
+    }
+  }
+  // 键盘按下
+  public onKeyDown(e: KeyboardEvent, options: CanvasEventOptions): void {}
+  // 键盘松开
+  public onKeyUp(e: KeyboardEvent, options: CanvasEventOptions): void {}
+  // // 键盘按住
+  // public onkeyPress(e: KeyboardEvent): void {
 
   // }
 }

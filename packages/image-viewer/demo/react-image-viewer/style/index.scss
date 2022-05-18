@@ -1,0 +1,19 @@
+.react-image-viewer {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 400px;
+    // background-color: #262626;
+}
+.slider {
+    width: 48px;
+    margin-bottom: 12px;
+    // background-color: #262626;
+}
+.main {
+    flex: 1;
+    background-color: #262626;
+    > div {
+        height: 100%;
+    }
+}
