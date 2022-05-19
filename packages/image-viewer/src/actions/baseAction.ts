@@ -47,7 +47,12 @@ export default abstract class BaseAction {
   // 鼠标移入
   public onMouseEnter(e: MouseEvent, options: CanvasEventOptions): void {}
   // 鼠标移出
-  public onMouseLeave(e: MouseEvent, options: CanvasEventOptions): void {}
+  public onMouseLeave(e: MouseEvent, options: CanvasEventOptions): void {
+    if (this.isEventOnCanvas(e)) {
+      this.isMouseDown = false;
+      this.startPoint = undefined;
+    }
+  }
   // 鼠标按下
   public onMouseDown(e: MouseEvent, options: CanvasEventOptions): void {
     if (this.isEventOnCanvas(e)) {

@@ -1,3 +1,4 @@
+import { ActionNames } from '../actions/actionNames';
 import ImageLoader from '../image-loader';
 import { ActionDataType } from './actionData';
 import { IContext } from './context';
@@ -23,9 +24,13 @@ export interface ActionOptions {
   // 获取选中的数据
   getSelectActionData(): ActionDataType | undefined;
   // 更新数据
-  updateActionData(data: ActionDataType): void;
+  updateActionData(data: ActionDataType, shouldUpdate?: boolean): void;
   // 添加数据
-  addActionData(data: ActionDataType): void;
+  createActionData(
+    name: ActionNames,
+    data: ActionDataType,
+    shouldUpdate?: boolean,
+  ): void;
   // 删除数据
   deleteActionData(id: string): boolean;
   // 获取某种名称的所有数据

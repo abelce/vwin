@@ -105,8 +105,6 @@ export default class ImageViewer implements ImageViewerType {
     return actionModule.getSelectedAction();
   }
 
-  // 图片处理
-
   // 上下文
   private getContext(): IContext {
     return {
@@ -141,6 +139,6 @@ export default class ImageViewer implements ImageViewerType {
     ); // 获取图片的
     this.getModule<ActionDataModule>(
       ModuleNames.ActionDataModule,
-    ).createActionData(ActionNames.ScaleAction, scale);
+    ).createActionData(ActionNames.ScaleAction, { data: scale });
   }
 }

@@ -14,6 +14,7 @@ import ScaleAction from '../actions/scaleAction';
 import { IContext } from '../types/context';
 import { ActionDataType } from '../types/actionData';
 import ImageLoader from '../image-loader';
+import MoveAction from '../actions/moveAction';
 
 @autobind
 @ModuleWrapper(ModuleNames.ActionModule)
@@ -36,10 +37,10 @@ export default class ActionModule extends BaseModule {
   initActions = () => {
     this.actionManager = new ActionManager({
       canvasElement: this.options.canvasElement,
-      actions: [ScaleAction],
+      actions: [ScaleAction, MoveAction],
       getSelectActionData: this.actionDataModule.getSelectActionData,
       updateActionData: this.actionDataModule.updateActionData,
-      addActionData: this.actionDataModule.addActionData,
+      createActionData: this.actionDataModule.createActionData,
       deleteActionData: this.actionDataModule.deleteActionData,
       getActionsDataByName: this.actionDataModule.getActionsDataByName,
       getCurrentImage: (): ImageLoader => {

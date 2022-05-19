@@ -8,4 +8,10 @@ export const actionsConfig: Array<ActionOption> = [
     actionIcon: 'icon-suofangda',
     cursorIcon: 'zoom-in',
   },
+  {
+    actionKey: ActionNames.MoveAction,
+    actionName: '移动',
+    actionIcon: 'icon-yidong',
+    cursorIcon: 'move',
+  },
 ];

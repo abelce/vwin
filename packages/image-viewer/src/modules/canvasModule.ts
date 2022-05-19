@@ -66,7 +66,7 @@ export default class CanvasModule extends BaseModule {
       ActionNames.ScaleAction,
     );
     if (actionDataArr.length) {
-      const scale = actionDataArr[0].data as number;
+      const scale = actionDataArr[0].data.data as number;
       ctx.canvasCtx.scale(scale, scale);
     }
   }

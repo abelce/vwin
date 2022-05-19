@@ -71,7 +71,11 @@ export default class ActionDataModule extends BaseModule {
    * @param data
    * @returns
    */
-  public createActionData(name: ActionNames, data: any): ActionDataType {
+  public createActionData(
+    name: ActionNames,
+    data: any,
+    shouldUpdate = false,
+  ): ActionDataType {
     const newActionData: ActionDataType = {
       id: uuid(),
       name,
@@ -79,6 +83,9 @@ export default class ActionDataModule extends BaseModule {
       enable: true,
     };
     this.actionsData.push(newActionData);
+    if (shouldUpdate) {
+      this.eventModule.dispatch(EventNames.ActionDataChange);
+    }
     return newActionData;
   }
 
@@ -88,14 +95,16 @@ export default class ActionDataModule extends BaseModule {
    * @param data
    * @returns
    */
-  public updateActionData(data: any) {
+  public updateActionData(data: any, shouldUpdate = false) {
     const index = this.actionsData.findIndex(action => action.id === data.id);
     if (index !== -1) {
       this.actionsData[index] = {
         ...this.actionsData[index],
         ...data,
       };
-      this.eventModule.dispatch(EventNames.ActionDataChange);
+      if (shouldUpdate) {
+        this.eventModule.dispatch(EventNames.ActionDataChange);
+      }
     }
   }
 

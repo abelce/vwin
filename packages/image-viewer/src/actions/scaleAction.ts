@@ -51,17 +51,19 @@ export default class ScaleAction extends BaseAction {
         y: e.clientY,
       };
       const deltaY = currentPoint.y - this.startPoint.y;
+      // scale的数据肯定是存在的，每次渲染新的图片时都会自动加一个scale数据
       const actionDataArr = this.options.getActionsDataByName(
         ActionNames.ScaleAction,
       );
+      const newScale =
+        this.scale.data +
+        deltaY / ACTION_SCALE_BASE / this.options.canvasElement.height;
+      console.log(newScale, this.scale.data);
       if (actionDataArr.length) {
-        const scale = actionDataArr[0];
-        scale.data = Math.max(
-          this.scale + (deltaY / ACTION_SCALE_BASE) * 0.1,
-          0,
-          this.minScale,
-        );
-        this.options.updateActionData(scale);
+        const oldScale = actionDataArr[0];
+        const scale = { ...oldScale, data: { ...oldScale.data } };
+        scale.data.data = Math.max(newScale, 0, this.minScale);
+        this.options.updateActionData(scale, true);
       }
     }
   }

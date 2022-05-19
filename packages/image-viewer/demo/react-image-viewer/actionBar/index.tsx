@@ -3,6 +3,7 @@ import React from 'react';
 import { ActionItem } from './ActionItem';
 import { actionsConfig } from './config';
 import { ActionBarProps, ActionOption } from './types';
+import styles from './style.scss';
 
 export default class ActionBar extends React.Component<ActionBarProps> {
   actions: Array<ActionOption> = actionsConfig;
@@ -32,7 +33,7 @@ export default class ActionBar extends React.Component<ActionBarProps> {
 
   render() {
     return (
-      <div>
+      <div className={styles.ActionBar}>
         {this.actions.map(action => (
           <ActionItem
             key={action.actionKey}
