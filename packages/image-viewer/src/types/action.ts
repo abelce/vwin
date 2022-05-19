@@ -28,9 +28,9 @@ export interface ActionOptions {
   // 添加数据
   createActionData(
     name: ActionNames,
-    data: ActionDataType,
+    data: any,
     shouldUpdate?: boolean,
-  ): void;
+  ): ActionDataType;
   // 删除数据
   deleteActionData(id: string): boolean;
   // 获取某种名称的所有数据
@@ -41,4 +41,9 @@ export interface ActionOptions {
 
 export interface CanvasEventOptions {
   isMousePressed: boolean; // 鼠标是否按住
+}
+
+export enum ActionPhase {
+  BeforeDrawImage = 'BeforeDrawImage', // 执行drawImage之前
+  AfterDrawImage = 'AfterDrawImage', // 执行drawImage之后
 }

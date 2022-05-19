@@ -36,7 +36,7 @@ export default class ActionManager {
   };
 
   public getActionByName(name: ActionNames): BaseAction | undefined {
-    return this.actions.find(action => action.name === name);
+    return this.actionMap.get(name);
   }
 
   public getSelectedActionName(): ActionNames | undefined {

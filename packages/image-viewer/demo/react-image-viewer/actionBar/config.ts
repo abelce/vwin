@@ -9,7 +9,7 @@ export const actionsConfig: Array<ActionOption> = [
     cursorIcon: 'zoom-in',
   },
   {
-    actionKey: ActionNames.MoveAction,
+    actionKey: ActionNames.TranslateAction,
     actionName: '移动',
     actionIcon: 'icon-yidong',
     cursorIcon: 'move',

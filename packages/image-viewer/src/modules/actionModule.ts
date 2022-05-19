@@ -14,7 +14,7 @@ import ScaleAction from '../actions/scaleAction';
 import { IContext } from '../types/context';
 import { ActionDataType } from '../types/actionData';
 import ImageLoader from '../image-loader';
-import MoveAction from '../actions/moveAction';
+import TranslateAction from '../actions/translateAction';
 
 @autobind
 @ModuleWrapper(ModuleNames.ActionModule)
@@ -37,7 +37,7 @@ export default class ActionModule extends BaseModule {
   initActions = () => {
     this.actionManager = new ActionManager({
       canvasElement: this.options.canvasElement,
-      actions: [ScaleAction, MoveAction],
+      actions: [ScaleAction, TranslateAction],
       getSelectActionData: this.actionDataModule.getSelectActionData,
       updateActionData: this.actionDataModule.updateActionData,
       createActionData: this.actionDataModule.createActionData,
@@ -48,6 +48,10 @@ export default class ActionModule extends BaseModule {
       },
     });
   };
+
+  public getActionByName(name: ActionNames) {
+    return this.actionManager.getActionByName(name);
+  }
 
   public getSelectedAction(): BaseAction | undefined {
     const selectedActionName = this.actionManager.getSelectedActionName();

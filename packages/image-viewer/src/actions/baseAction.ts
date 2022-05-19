@@ -1,4 +1,8 @@
-import { ActionOptions, CanvasEventOptions } from '../types/action';
+import {
+  ActionOptions,
+  ActionPhase,
+  CanvasEventOptions,
+} from '../types/action';
 import { ActionDataType } from '../types/actionData';
 import { IContext } from '../types/context';
 import { Coordinate } from '../types/coordinate';
@@ -6,6 +10,7 @@ import { ActionNames } from './actionNames';
 
 export default abstract class BaseAction {
   public abstract name: ActionNames;
+  public actionPhase: ActionPhase = ActionPhase.AfterDrawImage; // 默认drawImage之后执行
 
   public isMouseDown: boolean = false;
   public isMouseMove: boolean = false;

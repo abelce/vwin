@@ -1,6 +1,8 @@
 import { autobind } from 'core-decorators';
 import { ActionNames } from '../actions/actionNames';
 import ImageLoader from '../image-loader';
+import { ActionPhase } from '../types/action';
+import { ActionDataType } from '../types/actionData';
 import { IContext } from '../types/context';
 import ImageUtils from '../utils/imageUtils';
 import ActionDataModule from './actionDataModule';
@@ -57,7 +59,8 @@ export default class CanvasModule extends BaseModule {
     const ctx = this.options.getContext();
     const image = ctx.getCurrentImage().image;
     // 缩放
-    this.scale(ctx);
+    // this.scale(ctx);
+    // ctx.canvasCtx.translate(100, 100);
     ctx.canvasCtx.drawImage(image, 0, 0);
   }
 
@@ -71,14 +74,34 @@ export default class CanvasModule extends BaseModule {
     }
   }
 
-  gourpData() {
-    this.actionDataModule.getActionsData();
+  // 对数据按照执行阶段进行分组
+  private groupActionData(): { [key: string]: Array<ActionDataType> } {
+    const group: { [key: string]: Array<ActionDataType> } = {};
+    this.actionDataModule.getActionsData().forEach(data => {
+      const action = this.actionModule.getActionByName(data.name);
+      if (action) {
+        if (!group[action.actionPhase]) {
+          group[action.actionPhase] = [];
+        }
+        group[action.actionPhase].push(data);
+      }
+    });
+    return group;
   }
 
-  renderActionData() {
-    const ctx = this.options.getContext();
-    const actionsData = this.actionDataModule.getActionsData();
-    // @TODO: 这里要过滤掉scale的数据，scale要在drawImage前设置
+  renderBeforeDrawImage(ctx: IContext, actionsData: Array<ActionDataType>) {
+    if (!actionsData) {
+      return;
+    }
+    actionsData.forEach(item => {
+      this.actionModule.render(ctx, item);
+    });
+  }
+
+  renderAfterDrawImage(ctx: IContext, actionsData: Array<ActionDataType>) {
+    if (!actionsData) {
+      return;
+    }
     actionsData.forEach(item => {
       this.actionModule.render(ctx, item);
     });
@@ -86,12 +109,12 @@ export default class CanvasModule extends BaseModule {
 
   render() {
     const ctx = this.options.getContext();
+    const groupData = this.groupActionData();
     this.clearCanvas();
     ctx.canvasCtx.save();
-    // this.saveCanvas(ctx);
+    this.renderBeforeDrawImage(ctx, groupData[ActionPhase.BeforeDrawImage]);
     this.drawImage();
-    this.renderActionData();
+    this.renderAfterDrawImage(ctx, groupData[ActionPhase.AfterDrawImage]);
     ctx.canvasCtx.restore();
-    // this.restoreCanvas(ctx);
   }
 }

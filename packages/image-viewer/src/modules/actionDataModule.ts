@@ -8,6 +8,7 @@ import { IContext } from '../types/context';
 import { ActionNames } from '../actions/actionNames';
 import { EventModule } from './eventModule';
 import { EventNames } from './eventNames';
+import { ActionPhase } from '../types/action';
 
 @autobind
 @ModuleWrapper(ModuleNames.ActionDataModule)

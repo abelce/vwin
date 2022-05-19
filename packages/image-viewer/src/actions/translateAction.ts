@@ -10,40 +10,36 @@ import BaseAction from './baseAction';
  * 向上放大，向下缩小
  */
 @autobind
-export default class ScaleAction extends BaseAction {
-  public name: string = ActionNames.ScaleAction;
+export default class TranslateAction extends BaseAction {
+  public name: string = ActionNames.TranslateAction;
   public actionPhase: ActionPhase = ActionPhase.BeforeDrawImage;
 
-  private scale: number = 0;
-  private minScale: number = Infinity; // 图片最小比例，这里按照缩小后宽高为一个像素作为基准
-
-  // 设置最小的缩放比
-  private setMinScale() {
-    const imageLoader = this.options.getCurrentImage();
-    this.minScale = Math.min(1 / imageLoader.width, 1 / imageLoader.height);
-  }
+  private translate?: ActionDataType;
 
   // 鼠标按下
   public onMouseDown(e: MouseEvent, options: CanvasEventOptions): void {
     if (this.isEventOnCanvas(e)) {
       super.onMouseDown(e, options);
-      // 点击是获取到原始的scale
       const actionDataArr = this.options.getActionsDataByName(
-        ActionNames.ScaleAction,
+        ActionNames.TranslateAction,
       );
       if (actionDataArr.length) {
-        this.scale = actionDataArr[0].data as number;
+        this.translate = actionDataArr[0];
+      } else {
+        this.translate = this.options.createActionData(
+          ActionNames.TranslateAction,
+          {
+            data: [0, 0],
+          },
+        );
       }
-      this.setMinScale();
     }
   }
 
   public onMouseUp(e: MouseEvent, options: CanvasEventOptions): void {
     if (this.isEventOnCanvas(e)) {
       super.onMouseUp(e, options);
-      // 点击是获取到原始的scale
-      this.scale = 0;
-      this.minScale = Infinity;
+      this.translate = undefined;
     }
   }
 
@@ -54,20 +50,28 @@ export default class ScaleAction extends BaseAction {
         x: e.clientX,
         y: e.clientY,
       };
+      const deltaX = currentPoint.x - this.startPoint.x;
       const deltaY = currentPoint.y - this.startPoint.y;
-      // scale的数据肯定是存在的，每次渲染新的图片时都会自动加一个scale数据
-      const actionDataArr = this.options.getActionsDataByName(
-        ActionNames.ScaleAction,
+      console.log(deltaX, deltaY);
+      const dataArr = this.options.getActionsDataByName(
+        ActionNames.TranslateAction,
       );
-      const newScale =
-        this.scale.data +
-        deltaY / ACTION_SCALE_BASE / this.options.canvasElement.height;
-      console.log(newScale, this.scale.data);
-      if (actionDataArr.length) {
-        const oldScale = actionDataArr[0];
-        const scale = { ...oldScale, data: { ...oldScale.data } };
-        scale.data.data = Math.max(newScale, 0, this.minScale);
-        this.options.updateActionData(scale, true);
+      if (dataArr.length) {
+        const oldData = dataArr[0];
+        const newTranslateData = [
+          oldData.data.data[0] + deltaX,
+          oldData.data.data[1] + deltaY,
+        ];
+        this.options.updateActionData(
+          {
+            ...oldData,
+            data: {
+              ...oldData.data,
+              data: newTranslateData,
+            },
+          },
+          true,
+        );
       }
     }
   }
@@ -79,7 +83,8 @@ export default class ScaleAction extends BaseAction {
   ): void {
     const { name, data } = actionData;
     if (name === this.name) {
-      ctx.canvasCtx.scale(data.data, data.data);
+      console.log(data.data);
+      ctx.canvasCtx.translate(data.data[0], data.data[1]);
     }
   }
 }
