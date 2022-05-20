@@ -8,7 +8,7 @@ import { IContext } from '../types/context';
 import { ActionNames } from '../actions/actionNames';
 import { EventModule } from './eventModule';
 import { EventNames } from './eventNames';
-import { ActionPhase } from '../types/action';
+import _cloneDeep from 'lodash/cloneDeep';
 
 @autobind
 @ModuleWrapper(ModuleNames.ActionDataModule)
@@ -87,7 +87,7 @@ export default class ActionDataModule extends BaseModule {
     if (shouldUpdate) {
       this.eventModule.dispatch(EventNames.ActionDataChange);
     }
-    return newActionData;
+    return _cloneDeep(newActionData);
   }
 
   /**
@@ -99,10 +99,10 @@ export default class ActionDataModule extends BaseModule {
   public updateActionData(data: any, shouldUpdate = false) {
     const index = this.actionsData.findIndex(action => action.id === data.id);
     if (index !== -1) {
-      this.actionsData[index] = {
+      this.actionsData[index] = _cloneDeep({
         ...this.actionsData[index],
         ...data,
-      };
+      });
       if (shouldUpdate) {
         this.eventModule.dispatch(EventNames.ActionDataChange);
       }
