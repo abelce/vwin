@@ -31,18 +31,18 @@ export default class ImageViewer implements ImageViewerType {
   // 操作管理
   public actions = [];
 
-  constructor(props: ImageViewerProps) {
-    if (!props.container) {
+  constructor(private options: ImageViewerProps) {
+    if (!options.container) {
       return;
     }
-    this.initDom(props);
+    this.initDom(options);
     this.initModules();
     this.initEvents(); // 初始化事件
   }
 
-  private initDom(props: ImageViewerProps) {
-    this.container = props.container;
-    this.srcList = Array.isArray(props.srcList) ? props.srcList : [];
+  private initDom(options: ImageViewerProps) {
+    this.container = options.container;
+    this.srcList = Array.isArray(options.srcList) ? options.srcList : [];
     // 删除container下面的所有内容
     this.container.innerHTML = '';
     this.createCanvas();
@@ -51,8 +51,10 @@ export default class ImageViewer implements ImageViewerType {
   // init canvas
   private createCanvas() {
     const canvas = document.createElement('canvas');
-    canvas.style.width = '100%';
-    canvas.style.height = '100%';
+    canvas.style.width = this.options.width + 'px';
+    canvas.style.height = this.options.height + 'px';
+    canvas.width = this.options.width;
+    canvas.height = this.options.height;
     this.container?.appendChild(canvas);
     this.canvas = canvas;
     this.canvasCtx = this.canvas.getContext('2d');
@@ -133,10 +135,11 @@ export default class ImageViewer implements ImageViewerType {
   private initImage() {
     const ctx = this.getContext();
     const image = ctx?.getCurrentImage();
-    const scale = Math.min(
-      this.canvas.width / image.width,
-      this.canvas.height / image.height,
-    ); // 获取图片的
+    // const scale = Math.min(
+    //   this.canvas.width / image.width,
+    //   this.canvas.height / image.height,
+    // ); // 获取图片的
+    const scale = 1;
     this.getModule<ActionDataModule>(
       ModuleNames.ActionDataModule,
     ).createActionData(ActionNames.ScaleAction, { data: scale });

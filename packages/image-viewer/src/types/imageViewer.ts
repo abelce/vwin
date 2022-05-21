@@ -46,4 +46,6 @@ export interface ImageViewerType {
 export interface ImageViewerProps {
   container: HTMLElement; // 容器元素
   srcList?: Array<string>; // 原始图片数组
+  width: number; // canvas宽度
+  height: number; // canvas高度
 }

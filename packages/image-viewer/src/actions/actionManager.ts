@@ -55,15 +55,9 @@ export default class ActionManager {
     this.selectedActionName = actionName;
   }
 
-  public render(
-    ctx: IContext,
-    actionData: ActionDataType,
-    dataIsEditing?: boolean,
-  ) {
+  public render(ctx: IContext, actionData: ActionDataType) {
     if (actionData) {
-      this.actionMap
-        .get(actionData.name)
-        ?.render(ctx, actionData, dataIsEditing);
+      this.actionMap.get(actionData.name)?.render(ctx, actionData);
     }
   }
   // 添加canvas鼠标事件

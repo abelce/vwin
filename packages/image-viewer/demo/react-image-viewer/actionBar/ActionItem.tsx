@@ -15,7 +15,6 @@ export const ActionItem = (props: ActionItemProps) => {
   return (
     <div className={className} onClick={handleClick}>
       <IconFont type={props.action?.actionIcon} />
-      {props.action?.actionName}
     </div>
   );
 };

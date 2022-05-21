@@ -19,6 +19,8 @@ export default class ReactImageViewer extends React.Component {
     this.imageViewer = new ImageViewer({
       container: this._ref?.current,
       srcList: ['https://static.vwood.xyz/blog/WX20211217-215252@2x.png'],
+      width: 1000,
+      height: 600,
     });
     this.forceUpdate();
   }

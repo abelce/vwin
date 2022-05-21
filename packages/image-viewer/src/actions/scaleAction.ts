@@ -54,7 +54,7 @@ export default class ScaleAction extends BaseAction {
         x: e.clientX,
         y: e.clientY,
       };
-      const deltaY = currentPoint.y - this.startPoint.y;
+      const deltaY = currentPoint.y - this.startPoint.clientY;
       // scale的数据肯定是存在的，每次渲染新的图片时都会自动加一个scale数据
       const actionDataArr = this.options.getActionsDataByName(
         ActionNames.ScaleAction,
@@ -62,7 +62,6 @@ export default class ScaleAction extends BaseAction {
       const newScale =
         this.scale.data +
         deltaY / ACTION_SCALE_BASE / this.options.canvasElement.height;
-      console.log(newScale, this.scale.data);
       if (actionDataArr.length) {
         const oldScale = actionDataArr[0];
         const scale = { ...oldScale, data: { ...oldScale.data } };

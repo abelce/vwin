@@ -59,8 +59,8 @@ export default class TranslateAction extends BaseAction {
         x: e.clientX,
         y: e.clientY,
       };
-      const deltaX = currentPoint.x - this.startPoint.x;
-      const deltaY = currentPoint.y - this.startPoint.y;
+      const deltaX = currentPoint.x - this.startPoint.clientX;
+      const deltaY = currentPoint.y - this.startPoint.clientY;
       const dataArr = this.options.getActionsDataByName(
         ActionNames.TranslateAction,
       );

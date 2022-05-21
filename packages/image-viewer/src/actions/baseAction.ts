@@ -61,12 +61,15 @@ export default abstract class BaseAction {
   // 鼠标按下
   public onMouseDown(e: MouseEvent, options: CanvasEventOptions): void {
     if (this.isEventOnCanvas(e)) {
+      const rect = this.options.canvasElement.getBoundingClientRect();
       switch (e.button) {
         case 0:
           this.isMouseDown = true;
           this.startPoint = {
-            x: e.clientX,
-            y: e.clientY,
+            clientX: e.clientX,
+            clientY: e.clientY,
+            x: e.clientX - rect.left,
+            y: e.clientY - rect.top,
           };
           break;
       }

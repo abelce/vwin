@@ -30,7 +30,9 @@ export default class CanvasModule extends BaseModule {
 
   public apply(ctx: IContext): Promise<void> {
     // 数据发生变化后需要重新绘制
-    this.eventModule.on(EventNames.ActionDataChange, this.render);
+    this.eventModule.on(EventNames.ActionDataChange, () => {
+      setTimeout(this.render);
+    });
     return Promise.resolve();
   }
 

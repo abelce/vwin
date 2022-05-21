@@ -14,4 +14,10 @@ export const actionsConfig: Array<ActionOption> = [
     actionIcon: 'icon-yidong',
     cursorIcon: 'move',
   },
+  {
+    actionKey: ActionNames.TextAction,
+    actionName: '文本',
+    actionIcon: 'icon-text',
+    cursorIcon: 'text',
+  },
 ];

@@ -4,10 +4,11 @@
     justify-content: center;
     align-items: center;
     height: 48px;
+    width: 48px;
     cursor: pointer;
     :global {
         .anticon {
-            font-size: 36px;
+            font-size: 24px;
         }
     }
 }
