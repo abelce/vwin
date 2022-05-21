@@ -114,7 +114,11 @@ export default class TextAction extends BaseAction {
     ctx.canvasCtx.textAlign = 'left';
     const blocks = data.data.replace(/\r/g, '\n').split('\n');
     blocks.forEach((block: string, index: number) => {
-      ctx.canvasCtx.fillText(block, data.x, data.y + index * data.fontSize);
+      ctx.canvasCtx.fillText(
+        block,
+        data.x,
+        data.y + (index + 1) * data.fontSize,
+      );
     });
   }
 
