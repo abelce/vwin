@@ -20,4 +20,16 @@ export const actionsConfig: Array<ActionOption> = [
     actionIcon: 'icon-text',
     cursorIcon: 'text',
   },
+  {
+    actionKey: ActionNames.RotateLeftAction,
+    actionName: '左旋转',
+    actionIcon: 'icon-xiangzuoxuanzhuan',
+    cursorIcon: 'default',
+  },
+  {
+    actionKey: ActionNames.RotateRightAction,
+    actionName: '右旋转',
+    actionIcon: 'icon-xiangyouxuanzhuan',
+    cursorIcon: 'default',
+  },
 ];
