@@ -19,6 +19,7 @@ class ImageLoader extends React.Component<ImageLoaderProps, ImageLoaderState> {
   }
 
   componentDidMount() {
+    console.log('did mount');
     this.listener();
   }
 
